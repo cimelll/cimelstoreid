@@ -160,17 +160,43 @@ nav a:hover::after{width:100%}
 .stars button.on{color:#fbbf24;text-shadow:0 0 14px rgba(251,191,36,.5)}
 .rv-form input,.rv-form textarea{width:100%;background:var(--sf2);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:12px;font:inherit;font-size:14px;resize:none}
 .rv-form input:focus,.rv-form textarea:focus{outline:none;border-color:var(--ac)}
-.feed{overflow:hidden;margin-top:28px;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.feed{overflow:hidden;margin-top:28px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.feed:hover .feed-track{animation-play-state:paused}
 .feed-track{display:flex;gap:14px;width:max-content;animation:marq linear infinite}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.fc{flex:none;width:260px;padding:16px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;box-shadow:0 14px 30px -20px rgba(59,130,246,.5)}
+.fc{flex:none;width:260px;padding:16px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;box-shadow:0 14px 30px -20px rgba(59,130,246,.5);cursor:pointer;transition:border-color .2s}
+.fc:hover{border-color:var(--ln2)}
 .fc .fs{color:#fbbf24;letter-spacing:2px;font-size:15px}
 .fc b{display:block;font-size:14px;margin:6px 0 4px}
 .fc p{font-size:13px;color:var(--tx2);line-height:1.5;overflow-wrap:anywhere}
+.rv-sum{text-align:center;margin-top:22px;font-size:14px;color:var(--tx2)}
+.rv-toggle{display:flex;justify-content:center;margin-top:14px}
+#rv-all{max-width:640px;margin:18px auto 0}
+.grp{margin-top:22px}
+.grp h3{font-family:Manrope,sans-serif;font-weight:700;font-size:16px;color:var(--tx)}
+.rv-item{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px;margin-top:10px}
+.rv-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rv-item .fs{color:#fbbf24;letter-spacing:2px;font-size:15px}
+.rv-item b{display:block;font-size:14px;margin-top:6px}
+.rv-item p{font-size:14px;color:var(--tx2);line-height:1.5;margin-top:4px;overflow-wrap:anywhere}
+.rp{margin-top:10px;padding:10px 12px;background:var(--sf2);border:1px solid var(--ln);border-radius:10px}
+.rp-h{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px}
+.rp-h img{width:24px;height:24px;border-radius:50%;object-fit:cover}
+.rp-h b{display:inline;margin:0;font-size:13px}
+.rp p{font-size:13px;margin-top:6px}
+.vb{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#1d9bf0;color:#fff;font-size:10px;font-weight:700;line-height:1}
+.rp-f{display:flex;gap:8px;margin-top:10px}
+.rp-f input{flex:1;min-width:0;background:var(--sf2);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:10px;font:inherit;font-size:13px}
+.rp-f input:focus{outline:none;border-color:var(--ac)}
+.adm{max-width:560px;margin:22px auto 0;text-align:center;font-size:13px}
+.adm form{display:grid;gap:8px;margin-top:10px}
+.adm input{width:100%;background:var(--sf2);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:10px;font:inherit;font-size:13px}
+.adm input:focus{outline:none;border-color:var(--ac)}
+.adm .btn{margin:0 auto}
 
 footer{border-top:1px solid var(--ln);padding:24px 20px;text-align:center;color:var(--mu);font-size:13px}
 
-/* POPUP */
+/* POPUP GABUNG */
 .donate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,4,10,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
 .donate.show{opacity:1;visibility:visible}
 .dn-card{position:relative;width:100%;max-width:360px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent 50%),var(--sf);border:1px solid var(--ln2);border-radius:20px;padding:30px 26px 32px;text-align:center;display:grid;gap:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.6);transform:scale(.92) translateY(14px);transition:transform .5s var(--ease)}
@@ -183,6 +209,12 @@ footer{border-top:1px solid var(--ln);padding:24px 20px;text-align:center;color:
 .donate.show .dn-bar{animation:shrink 6s linear forwards}
 @keyframes shrink{from{width:100%}to{width:0}}
 .kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ac2);font-weight:600}
+
+/* MODAL DETAIL RATING */
+.rvm{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:20px;background:rgba(2,4,10,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.rvm.show{opacity:1;visibility:visible}
+.rvm-card{position:relative;width:100%;max-width:420px;max-height:80vh;overflow:auto;background:var(--sf);border:1px solid var(--ln2);border-radius:20px;padding:28px 22px 22px;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+.rvm-card .rv-item{margin-top:0;border:0;padding:0;background:none}
 
 /* TOAST */
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,12px);background:var(--ac);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s,transform .3s var(--ease);z-index:200;max-width:90vw;text-align:center}
@@ -333,7 +365,7 @@ footer{border-top:1px solid var(--ln);padding:24px 20px;text-align:center;color:
 <section class="wrap sec" id="rating">
   <div class="sec-h reveal">
     <h2>Rating</h2>
-    <p>Beri bintang dan komentar untuk Cimel Store.</p>
+    <p>Beri bintang dan komentar untuk Cimel Store. Klik rating untuk melihat detail.</p>
   </div>
   <div class="rv-form reveal">
     <div class="stars" id="rv-stars">
@@ -348,6 +380,19 @@ footer{border-top:1px solid var(--ln);padding:24px 20px;text-align:center;color:
     <button class="btn" id="rv-send" type="button">Kirim rating</button>
   </div>
   <div class="feed"><div class="feed-track" id="feed-track"></div></div>
+  <div class="rv-sum" id="rv-sum"></div>
+  <div class="rv-toggle"><button class="btn ghost sm" id="rv-toggle" type="button">Lihat semua rating</button></div>
+  <div id="rv-all" class="hide"><div id="rv-groups"></div></div>
+
+  <div class="adm">
+    <div id="adm-st" class="muted"></div>
+    <form id="adm-form" class="hide">
+      <input type="email" id="adm-email" placeholder="Email admin" required>
+      <input type="password" id="adm-pw" placeholder="Password admin" required>
+      <button class="btn sm" type="submit">Login admin</button>
+    </form>
+    <button class="btn ghost sm hide" id="adm-out" type="button">Logout admin</button>
+  </div>
 </section>
 
 <footer>© 2026 Cimel Store</footer>
@@ -360,6 +405,13 @@ footer{border-top:1px solid var(--ln);padding:24px 20px;text-align:center;color:
     <p class="muted">Dapatkan update, info produk, dan promo terbaru langsung dari saluran Cimel.</p>
     <a class="btn" id="dn-go" href="https://whatsapp.com/channel/0029VbEMOTH72WU4iK8yeu1w" target="_blank" rel="noopener">Gabung saluran</a>
     <div class="dn-bar"></div>
+  </div>
+</div>
+
+<div class="rvm" id="rvm">
+  <div class="rvm-card" role="dialog" aria-modal="true">
+    <button class="dn-x" id="rvm-x" type="button" aria-label="Tutup">×</button>
+    <div id="rvm-body"></div>
   </div>
 </div>
 
@@ -489,10 +541,128 @@ setTimeout(openDn,700);
 /* ---------- RATING (SUPABASE) ---------- */
 const SB_URL='https://cdiqrypbeamexoffwnmk.supabase.co';
 const SB_KEY='sb_publishable__Yd9u6NMPB84wr7I6paDMw_BQi849ie';
-const sbH={apikey:SB_KEY,'Content-Type':'application/json'};
+const LOGO='https://cdn.phototourl.com/member/2026-10-14-c6244611-b4b0-4809-80a7-86b2f19e9590.jpg';
 
-let rvSel=0;
+let rvSel=0, rvAll=[], rvReplies={}, currentRv=null, admin=null;
+
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const starStr=n=>'★'.repeat(n)+'☆'.repeat(5-n);
+const fmt=s=>new Date(s).toLocaleString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+function sbH(useAdmin){
+  const h={apikey:SB_KEY,'Content-Type':'application/json'};
+  if(useAdmin&&admin)h.Authorization='Bearer '+admin.token;
+  return h;
+}
+
+// ID perangkat (dipakai untuk batas 2 rating per perangkat)
+function getDev(){
+  try{
+    let d=localStorage.getItem('cimel_dev');
+    if(!d){
+      d=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2));
+      localStorage.setItem('cimel_dev',d);
+    }
+    return d;
+  }catch{return 'dev-'+Date.now()+'-'+Math.random().toString(36).slice(2);}
+}
+
+// Sesi admin
+function saveAdmin(a){
+  admin=a;
+  try{a?localStorage.setItem('cimel_admin',JSON.stringify(a)):localStorage.removeItem('cimel_admin');}catch{}
+}
+function loadAdmin(){
+  try{
+    const a=JSON.parse(localStorage.getItem('cimel_admin')||'null');
+    admin=(a&&a.exp>Date.now()/1000)?a:null;
+  }catch{admin=null;}
+}
+function renderAdm(){
+  $('#adm-st').textContent=admin?'Mode admin aktif: kamu bisa membalas rating.':'';
+  $('#adm-form').classList.toggle('hide',!!admin);
+  $('#adm-out').classList.toggle('hide',!admin);
+}
+
+// Ambil semua rating dan balasan
+async function loadAll(){
+  try{
+    const [a,b]=await Promise.all([
+      fetch(`${SB_URL}/rest/v1/ratings?select=id,name,stars,comment,created_at&is_show=eq.true&order=created_at.desc&limit=300`,{headers:sbH(false)}),
+      fetch(`${SB_URL}/rest/v1/replies?select=rating_id,body,created_at&order=created_at.asc&limit=1000`,{headers:sbH(false)})
+    ]);
+    if(!a.ok) throw new Error();
+    rvAll=await a.json();
+    rvReplies={};
+    if(b.ok){(await b.json()).forEach(x=>{(rvReplies[x.rating_id]=rvReplies[x.rating_id]||[]).push(x);});}
+  }catch{
+    rvAll=[];
+  }
+  renderFeed();
+  renderSum();
+  renderGroups();
+  renderAdm();
+  if(currentRv&&$('#rvm').classList.contains('show')) openRv(currentRv);
+}
+
+// Pop-up berjalan
+function renderFeed(){
+  const t=$('#feed-track');
+  if(!rvAll.length){
+    t.style.animation='none';
+    t.innerHTML='<div class="fc"><p>Belum ada rating. Jadilah yang pertama!</p></div>';
+    return;
+  }
+  const cards=rvAll.map(x=>`<div class="fc" data-id="${x.id}"><div class="fs">${starStr(x.stars)}</div><b>${esc(x.name)}</b><p>${esc(x.comment||'—')}</p></div>`).join('');
+  t.innerHTML=cards+cards;
+  t.style.animation=`marq ${Math.max(rvAll.length*6,12)}s linear infinite`;
+}
+
+function renderSum(){
+  if(!rvAll.length){$('#rv-sum').textContent='Belum ada rating.';return;}
+  const avg=(rvAll.reduce((a,x)=>a+x.stars,0)/rvAll.length).toFixed(1);
+  $('#rv-sum').innerHTML=`<b>${rvAll.length}</b> rating · rata-rata <b>${avg} ★</b>`;
+}
+
+// Daftar per bintang
+function renderGroups(){
+  $('#rv-groups').innerHTML=[5,4,3,2,1].map(s=>{
+    const list=rvAll.filter(x=>x.stars===s);
+    return `<div class="grp"><h3>${s} bintang <span class="muted sm">· ${list.length} orang</span></h3>${list.length?list.map(itemHTML).join(''):'<p class="muted sm">Belum ada.</p>'}</div>`;
+  }).join('');
+}
+
+// Satu kartu rating (dipakai di daftar dan modal)
+function itemHTML(x){
+  const rp=(rvReplies[x.id]||[]).map(r=>`
+    <div class="rp">
+      <div class="rp-h"><img src="${LOGO}" alt=""><b>Cimel Store</b><span class="vb" title="Akun terverifikasi">✓</span><span class="muted">· ${fmt(r.created_at)}</span></div>
+      <p>${esc(r.body)}</p>
+    </div>`).join('');
+  const form=admin?`<div class="rp-f"><input maxlength="500" placeholder="Balas sebagai Cimel Store..."><button class="btn sm" data-reply="${x.id}" type="button">Balas</button></div>`:'';
+  return `<div class="rv-item">
+    <div class="rv-top"><div class="fs">${starStr(x.stars)}</div><span class="muted sm">${fmt(x.created_at)}</span></div>
+    <b>${esc(x.name)}</b>
+    <p>${esc(x.comment||'—')}</p>
+    ${rp}${form}
+  </div>`;
+}
+
+function openRv(id){
+  const x=rvAll.find(r=>r.id===id);
+  if(!x)return;
+  currentRv=id;
+  $('#rvm-body').innerHTML=itemHTML(x);
+  $('#rvm').classList.add('show');
+}
+function closeRv(){$('#rvm').classList.remove('show');currentRv=null;}
+$('#rvm-x').onclick=closeRv;
+$('#rvm').onclick=e=>{if(e.target.id==='rvm')closeRv();};
+$('#feed-track').onclick=e=>{const c=e.target.closest('.fc[data-id]');if(c)openRv(+c.dataset.id);};
+$('#rv-toggle').onclick=()=>{
+  const h=$('#rv-all');h.classList.toggle('hide');
+  $('#rv-toggle').textContent=h.classList.contains('hide')?'Lihat semua rating':'Tutup daftar';
+};
 
 // Pilih bintang
 document.querySelectorAll('#rv-stars button').forEach(b=>{
@@ -502,53 +672,29 @@ document.querySelectorAll('#rv-stars button').forEach(b=>{
   };
 });
 
-// Ambil rating dan tampilkan sebagai pop-up berjalan
-async function loadFeed(){
-  const track=document.getElementById('feed-track');
-  try{
-    const r=await fetch(`${SB_URL}/rest/v1/ratings?select=name,stars,comment&is_show=eq.true&order=created_at.desc&limit=30`,{headers:sbH});
-    const list=r.ok?await r.json():[];
-    if(!list.length){
-      track.style.animation='none';
-      track.innerHTML='<div class="fc"><p>Belum ada rating. Jadilah yang pertama!</p></div>';
-      return;
-    }
-    const cards=list.map(x=>`
-      <div class="fc">
-        <div class="fs">${'★'.repeat(x.stars)}${'☆'.repeat(5-x.stars)}</div>
-        <b>${esc(x.name)}</b>
-        <p>${esc(x.comment||'—')}</p>
-      </div>`).join('');
-    track.innerHTML=cards+cards;
-    track.style.animation=`marq ${list.length*6}s linear infinite`;
-  }catch{
-    track.innerHTML='';
-  }
-}
-
 // Kirim rating
-document.getElementById('rv-send').onclick=async()=>{
+$('#rv-send').onclick=async()=>{
   if(!rvSel){toast('Pilih bintang dulu ya');return;}
+  const btn=$('#rv-send');
+  btn.disabled=true;
   const body={
     stars:rvSel,
-    name:(document.getElementById('rv-name').value.trim()||'Anonim').slice(0,40),
-    comment:document.getElementById('rv-text').value.trim().slice(0,200)
+    name:($('#rv-name').value.trim()||'Anonim').slice(0,40),
+    comment:$('#rv-text').value.trim().slice(0,200),
+    device_id:getDev()
   };
-  const btn=document.getElementById('rv-send');
-  btn.disabled=true;
   try{
-    const r=await fetch(`${SB_URL}/rest/v1/ratings`,{
-      method:'POST',
-      headers:{...sbH,Prefer:'return=minimal'},
-      body:JSON.stringify(body)
-    });
-    if(!r.ok) throw new Error();
+    const r=await fetch(`${SB_URL}/rest/v1/ratings`,{method:'POST',headers:{...sbH(false),Prefer:'return=minimal'},body:JSON.stringify(body)});
+    if(!r.ok){
+      toast(r.status===401||r.status===403?'Perangkat ini sudah mencapai batas 2 rating':'Gagal mengirim, coba lagi');
+      return;
+    }
     toast('Terima kasih atas ratingnya!');
     rvSel=0;
     document.querySelectorAll('#rv-stars button').forEach(x=>x.classList.remove('on'));
-    document.getElementById('rv-name').value='';
-    document.getElementById('rv-text').value='';
-    loadFeed();
+    $('#rv-name').value='';
+    $('#rv-text').value='';
+    await loadAll();
   }catch{
     toast('Gagal mengirim, coba lagi');
   }finally{
@@ -556,7 +702,52 @@ document.getElementById('rv-send').onclick=async()=>{
   }
 };
 
-loadFeed();
+// Login admin
+$('#adm-form').onsubmit=async e=>{
+  e.preventDefault();
+  try{
+    const r=await fetch(`${SB_URL}/auth/v1/token?grant_type=password`,{
+      method:'POST',headers:sbH(false),
+      body:JSON.stringify({email:$('#adm-email').value.trim(),password:$('#adm-pw').value})
+    });
+    if(!r.ok) throw new Error();
+    const j=await r.json();
+    saveAdmin({token:j.access_token,exp:Date.now()/1000+j.expires_in});
+    $('#adm-pw').value='';
+    toast('Login admin berhasil');
+    await loadAll();
+  }catch{
+    toast('Login gagal, cek email/password');
+  }
+};
+$('#adm-out').onclick=async()=>{saveAdmin(null);toast('Sudah logout');await loadAll();};
+
+// Balas rating (hanya admin, dicek di server)
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-reply]');
+  if(!b)return;
+  const inp=b.closest('.rv-item').querySelector('input');
+  const text=inp.value.trim();
+  if(!text){toast('Tulis balasannya dulu');return;}
+  b.disabled=true;
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/replies`,{
+      method:'POST',headers:{...sbH(true),Prefer:'return=minimal'},
+      body:JSON.stringify({rating_id:+b.dataset.reply,body:text.slice(0,500)})
+    });
+    if(r.status===401){saveAdmin(null);toast('Sesi admin habis, login ulang');}
+    else if(r.status===403){toast('Akun ini tidak punya izin membalas');}
+    else if(!r.ok) throw new Error();
+    else{toast('Balasan terkirim');await loadAll();}
+  }catch{
+    toast('Gagal membalas');
+  }finally{
+    b.disabled=false;
+  }
+});
+
+loadAdmin();
+loadAll();
 
 /* ---------- EFEK SCROLL & KURSOR ---------- */
 const prog=$('#prog'),hdr=document.querySelector('.top');
