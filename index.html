@@ -1,1 +1,588 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cimel Store</title>
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060812;--sf:#0c1222;--sf2:#111a2e;--ln:#1a2540;--ln2:#25345a;--tx:#eef2fb;--tx2:#b8c3da;--mu:#7385a6;--ac:#3b82f6;--ac2:#7aa7ff;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{min-height:100vh;color:var(--tx);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;background:radial-gradient(1000px 520px at 92% -14%,rgba(59,130,246,.10),transparent 62%),radial-gradient(800px 480px at -14% 46%,rgba(30,64,175,.06),transparent 60%),var(--bg);background-color:var(--bg)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.muted{color:var(--mu)}
+.sm{font-size:13px}
+.grow{flex:1;min-width:0}
+.hide{display:none!important}
 
+/* LATAR & BAR PROGRES */
+.orbs{position:fixed;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
+.orbs i{position:absolute;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.22),transparent 65%);animation:drift 24s ease-in-out infinite}
+.orbs i:nth-child(1){top:-200px;right:-160px}
+.orbs i:nth-child(2){top:34%;left:-240px;width:620px;height:620px;background:radial-gradient(circle,rgba(30,64,175,.22),transparent 65%);animation-duration:30s;animation-delay:-8s}
+.orbs i:nth-child(3){bottom:-260px;right:12%;width:460px;height:460px;background:radial-gradient(circle,rgba(96,165,250,.14),transparent 65%);animation-duration:34s;animation-delay:-14s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(70px,-50px) scale(1.08)}}
+.prog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#2563eb,#7aa7ff);z-index:60;box-shadow:0 0 12px rgba(59,130,246,.7)}
+
+/* HEADER */
+.top{position:sticky;top:0;z-index:20;background:rgba(6,8,18,.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--ln);transition:box-shadow .3s}
+.top.scrolled{box-shadow:0 14px 34px -18px rgba(0,0,0,.8)}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,.6),transparent)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:72px}
+.brand{display:flex;align-items:center;gap:12px;height:40px;font-family:Manrope,sans-serif;font-weight:800;font-size:18px;line-height:1;letter-spacing:-.01em}
+.brand img{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 2px var(--ln2);animation:glow 3.5s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 2px var(--ln2),0 0 0 rgba(59,130,246,0)}50%{box-shadow:0 0 0 2px var(--ln2),0 0 18px rgba(59,130,246,.45)}}
+nav{display:flex;gap:24px}
+nav a{position:relative;font-size:13px;color:var(--mu);transition:color .2s}
+nav a::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--ac2);border-radius:2px;transition:width .3s var(--ease)}
+nav a:hover{color:var(--tx)}
+nav a:hover::after{width:100%}
+
+/* TOMBOL */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:12px;background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff;font-weight:600;font-size:14px;line-height:1;border:1px solid #3b82f6;box-shadow:0 10px 28px -12px rgba(59,130,246,.7);transition:filter .2s,transform .15s,background .2s,color .2s,border-color .2s;cursor:pointer;text-align:center}
+.btn::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .7s var(--ease);pointer-events:none}
+.btn:hover::after{left:130%}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn.ghost{background:transparent;color:var(--tx2);border-color:var(--ln2);box-shadow:none}
+.btn.ghost::after{display:none}
+.btn.ghost:hover{background:var(--sf2);color:var(--tx)}
+.btn.sm{height:40px;padding:0 16px;font-size:13px;border-radius:10px}
+#open-dn{animation:ring 2.4s infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(59,130,246,.55)}70%,100%{box-shadow:0 0 0 12px rgba(59,130,246,0)}}
+
+/* HERO */
+.hero{padding-top:76px;padding-bottom:56px}
+.hero h1{font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(48px,8vw,88px);line-height:1.02;letter-spacing:-.03em;margin:0 0 18px;animation:rise .9s var(--ease) both}
+.hero h1 span{background:linear-gradient(90deg,#eef2fb,#7aa7ff,#eef2fb);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+.lead{color:var(--tx2);font-size:17px;line-height:1.7;max-width:50ch;margin-bottom:30px;animation:rise .9s var(--ease) .15s both}
+.cta{display:flex;gap:12px;flex-wrap:wrap;animation:rise .9s var(--ease) .3s both}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes shine{to{background-position:200% center}}
+
+/* SECTION */
+.sec{padding:52px 20px}
+.sec-h{margin-bottom:24px}
+.sec-h h2{position:relative;display:inline-block;padding-bottom:12px;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(26px,3.6vw,34px);letter-spacing:-.02em}
+.sec-h h2::after{content:"";position:absolute;left:0;bottom:0;width:56px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--ac),var(--ac2));transition:width .9s .25s var(--ease)}
+.js .sec-h:not(.in) h2::after{width:0}
+.sec-h p{color:var(--mu);font-size:14px;margin-top:6px}
+
+/* MUNCUL SAAT SCROLL */
+.js .reveal{opacity:0;translate:0 26px}
+.js .reveal.in{opacity:1;translate:0 0}
+.reveal{transition:opacity .8s var(--d,0s) ease,translate .8s var(--d,0s) var(--ease),transform .35s ease,border-color .25s,box-shadow .35s,background .25s}
+
+/* EFEK CAHAYA MENGIKUTI KURSOR */
+.spot{position:relative;overflow:hidden}
+.spot::before{content:"";position:absolute;inset:0;background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(59,130,246,.16),transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none;z-index:0}
+.spot:hover::before{opacity:1}
+.spot>*{position:relative;z-index:1}
+
+/* KONTAK */
+.contacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.ct{display:flex;align-items:center;gap:14px;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,.035),transparent),var(--sf);border:1px solid var(--ln);border-radius:14px;min-width:0}
+.ct:hover{border-color:var(--ln2);transform:translateY(-2px)}
+.ct img{width:44px;height:44px;border-radius:12px;flex:none;background:#fff;padding:6px;object-fit:contain}
+.ct b{display:block;font-size:15px;font-weight:600}
+.ct span{font-size:13px;color:var(--mu);overflow-wrap:anywhere}
+
+/* PRODUK */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.pcard{background:linear-gradient(180deg,rgba(255,255,255,.035),transparent 60%),var(--sf);border:1px solid var(--ln);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px}
+.pcard:hover{border-color:var(--ln2);box-shadow:0 22px 40px -24px rgba(59,130,246,.6);transform:translateY(-4px)}
+.pcard .logo{width:56px;height:56px;border-radius:14px;object-fit:cover;box-shadow:0 0 0 1px var(--ln2)}
+.pcard h3{font-family:Manrope,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.01em}
+.pcard p{font-size:14px}
+.opts{list-style:none;display:grid;gap:8px;margin:2px 0 4px}
+.opts li{display:flex;justify-content:space-between;padding:10px 12px;background:var(--sf2);border:1px solid var(--ln);border-radius:10px;font-size:14px}
+.opts b{color:var(--ac2);font-weight:600}
+.pcard .btn{margin-top:auto}
+
+/* TOOLS */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.tcard{background:linear-gradient(180deg,rgba(255,255,255,.035),transparent 60%),var(--sf);border:1px solid var(--ln);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.tcard:hover{border-color:var(--ln2);box-shadow:0 22px 40px -24px rgba(59,130,246,.6);transform:translateY(-4px)}
+.tag{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ac2);background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.35);padding:5px 10px;border-radius:999px}
+.tcard h3{font-family:Manrope,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.01em;margin-top:6px}
+.tcard p{font-size:14px;color:var(--mu);line-height:1.6}
+.tlink{margin-top:auto;padding-top:8px;font-size:14px;font-weight:600;color:var(--ac);word-break:break-all}
+.tlink:hover{color:var(--ac2);text-decoration:underline}
+
+/* PAYMENT */
+.pay-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.qr-card{background:linear-gradient(180deg,rgba(255,255,255,.035),transparent 60%),var(--sf);border:1px solid var(--ln);border-radius:16px;padding:24px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.qr-box{width:100%;max-width:300px;aspect-ratio:1/1;border-radius:14px;background:#fff;padding:10px;overflow:hidden;animation:glowpulse 4.5s ease-in-out infinite}
+.qr-box img{width:100%;height:100%;object-fit:contain}
+@keyframes glowpulse{0%,100%{box-shadow:0 0 0 1px var(--ln2),0 0 22px -8px rgba(59,130,246,.35)}50%{box-shadow:0 0 0 1px var(--ln2),0 0 46px -6px rgba(59,130,246,.75)}}
+.pay-stack{display:grid;gap:14px}
+.pay-card{display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,rgba(255,255,255,.035),transparent 60%),var(--sf);border:1px solid var(--ln);border-radius:16px;padding:18px}
+.pay-card:hover{border-color:var(--ln2);transform:translateY(-3px)}
+.pay-logo{width:52px;height:52px;border-radius:14px;background:#fff;padding:6px;object-fit:contain;flex:none}
+.pay-card b{display:block;font-size:15px;font-weight:600}
+.pay-num{font-size:14px;color:var(--ac2);overflow-wrap:anywhere}
+
+/* CIMEL AI */
+.ai-wrap{max-width:640px;margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent 40%),var(--sf);border:1px solid var(--ln);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;height:560px;box-shadow:0 30px 60px -36px rgba(59,130,246,.45)}
+.ai-head{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--ln)}
+.ai-dot{width:10px;height:10px;border-radius:50%;background:#34d399;box-shadow:0 0 12px #34d399;animation:pulsedot 2s ease-in-out infinite}
+@keyframes pulsedot{0%,100%{box-shadow:0 0 6px #34d399}50%{box-shadow:0 0 16px #34d399}}
+.ai-msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px}
+.am{max-width:85%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.55;white-space:pre-wrap;animation:pop .4s var(--ease) both}
+.am.bot{background:var(--sf2);border:1px solid var(--ln);align-self:flex-start;border-bottom-left-radius:4px}
+.am.user{background:var(--ac);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.am.typing{display:flex;align-items:center;padding:12px 16px}
+.am.tw::after{content:"▍";color:var(--ac2);margin-left:2px;animation:blink2 .9s steps(1) infinite}
+@keyframes blink2{50%{opacity:0}}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.aopts{display:flex;flex-wrap:wrap;gap:8px;align-self:flex-start;margin:2px 0 6px;max-width:100%}
+.aopt{padding:9px 14px;border-radius:999px;border:1px solid var(--ln2);background:transparent;color:var(--ac2);font:inherit;font-size:13px;font-weight:600;cursor:pointer;text-align:left;transition:background .2s,border-color .2s,transform .2s;animation:pop .4s var(--ease) both;animation-delay:calc(var(--i,0) * 70ms)}
+.aopt:hover{background:rgba(59,130,246,.12);border-color:var(--ac);transform:translateY(-1px)}
+.ai-status{display:flex;align-items:center;gap:8px;padding:10px 18px;border-top:1px solid var(--ln);font-size:13px;color:var(--mu);animation:pop .3s var(--ease) both}
+.dot3{display:inline-flex;gap:4px;align-items:center}
+.dot3 i{width:6px;height:6px;border-radius:50%;background:var(--ac2);animation:blink 1.2s infinite ease-in-out}
+.dot3 i:nth-child(2){animation-delay:.18s}
+.dot3 i:nth-child(3){animation-delay:.36s}
+@keyframes blink{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+
+/* RATING */
+.rv-form{display:grid;gap:12px;padding:24px;background:linear-gradient(180deg,rgba(255,255,255,.035),transparent 60%),var(--sf);border:1px solid var(--ln);border-radius:16px;max-width:560px;margin:0 auto}
+.stars{display:flex;gap:6px;justify-content:center}
+.stars button{background:none;border:0;font-size:36px;line-height:1;color:var(--ln2);cursor:pointer;transition:transform .15s,color .15s}
+.stars button:hover{transform:scale(1.15)}
+.stars button.on{color:#fbbf24;text-shadow:0 0 14px rgba(251,191,36,.5)}
+.rv-form input,.rv-form textarea{width:100%;background:var(--sf2);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:12px;font:inherit;font-size:14px;resize:none}
+.rv-form input:focus,.rv-form textarea:focus{outline:none;border-color:var(--ac)}
+.feed{overflow:hidden;margin-top:28px;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.feed-track{display:flex;gap:14px;width:max-content;animation:marq linear infinite}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.fc{flex:none;width:260px;padding:16px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;box-shadow:0 14px 30px -20px rgba(59,130,246,.5)}
+.fc .fs{color:#fbbf24;letter-spacing:2px;font-size:15px}
+.fc b{display:block;font-size:14px;margin:6px 0 4px}
+.fc p{font-size:13px;color:var(--tx2);line-height:1.5;overflow-wrap:anywhere}
+
+footer{border-top:1px solid var(--ln);padding:24px 20px;text-align:center;color:var(--mu);font-size:13px}
+
+/* POPUP */
+.donate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,4,10,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.donate.show{opacity:1;visibility:visible}
+.dn-card{position:relative;width:100%;max-width:360px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent 50%),var(--sf);border:1px solid var(--ln2);border-radius:20px;padding:30px 26px 32px;text-align:center;display:grid;gap:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.6);transform:scale(.92) translateY(14px);transition:transform .5s var(--ease)}
+.donate.show .dn-card{transform:none}
+.dn-card h3{font-family:Manrope,sans-serif;font-weight:800;font-size:26px;letter-spacing:-.02em}
+.dn-card p{font-size:14px;line-height:1.6}
+.dn-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:var(--sf2);color:var(--tx);font-size:20px;line-height:1;display:grid;place-items:center;cursor:pointer;border:0;transition:background .2s,transform .2s}
+.dn-x:hover{background:var(--ln);transform:rotate(90deg)}
+.dn-bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--ac)}
+.donate.show .dn-bar{animation:shrink 6s linear forwards}
+@keyframes shrink{from{width:100%}to{width:0}}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ac2);font-weight:600}
+
+/* TOAST */
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,12px);background:var(--ac);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s,transform .3s var(--ease);z-index:200;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:820px){.pay-grid{grid-template-columns:1fr}}
+@media(max-width:560px){nav{display:none}.hero{padding-top:52px}.ai-wrap{height:520px}}
+
+/* KURANGI GERAK BILA DIMINTA */
+@media (prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+ .js .reveal{opacity:1;translate:none}
+ .feed-track{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="prog" id="prog"></div>
+<div class="orbs" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#"><img src="https://cdn.phototourl.com/member/2026-10-14-c6244611-b4b0-4809-80a7-86b2f19e9590.jpg" alt="Cimel">Cimel</a>
+    <nav>
+      <a href="#produk">Produk</a>
+      <a href="#kontak">Kontak</a>
+      <a href="#tools">Tools</a>
+      <a href="#payment">Payment</a>
+      <a href="#ai">AI</a>
+      <a href="#rating">Rating</a>
+    </nav>
+    <button class="btn sm" id="open-dn" type="button">Gabung saluran</button>
+  </div>
+</header>
+
+<section class="wrap hero">
+  <h1>Welcome to <span>Cimel Store</span></h1>
+  <p class="lead">Preset, edit, dan jasa kreatif untuk kebutuhanmu. Pilih produk di bawah, pakai tools gratis, atau langsung hubungi admin lewat WhatsApp.</p>
+  <div class="cta">
+    <a class="btn" href="#produk">Lihat produk</a>
+    <a class="btn ghost" href="#kontak">Kontak</a>
+    <a class="btn ghost" href="#tools">Tools</a>
+    <a class="btn ghost" href="#payment">Payment</a>
+    <a class="btn ghost" href="#ai">Cimel AI</a>
+  </div>
+</section>
+
+<section class="wrap sec" id="produk">
+  <div class="sec-h reveal">
+    <h2>Produk &amp; Jasa</h2>
+    <p>Pilih produk atau jasa yang kamu butuhkan.</p>
+  </div>
+  <div class="pgrid" id="products"></div>
+</section>
+
+<section class="wrap sec" id="kontak">
+  <div class="sec-h reveal">
+    <h2>Kontak</h2>
+    <p>Hubungi kami lewat kanal di bawah.</p>
+  </div>
+  <div class="contacts">
+    <a class="ct spot reveal" style="--d:0s" href="https://wa.me/6285790618370" target="_blank" rel="noopener">
+      <img src="https://cdn.phototourl.com/member/2026-10-11-b617fad9-c6cb-4050-b87a-209d92e73395.jpg" alt="WhatsApp">
+      <div><b>WhatsApp</b><span>+62 857-9061-8370</span></div>
+    </a>
+    <a class="ct spot reveal" style="--d:.08s" href="mailto:amelweplay@gmail.com">
+      <img src="https://cdn.phototourl.com/member/2026-10-14-47cf49c5-cf83-4b5e-ab94-877613ed33f2.jpg" alt="Gmail">
+      <div><b>Email</b><span>amelweplay@gmail.com</span></div>
+    </a>
+    <a class="ct spot reveal" style="--d:.16s" href="https://whatsapp.com/channel/0029VbEMOTH72WU4iK8yeu1w" target="_blank" rel="noopener">
+      <img src="https://cdn.phototourl.com/member/2026-10-11-b617fad9-c6cb-4050-b87a-209d92e73395.jpg" alt="WhatsApp Saluran">
+      <div><b>WhatsApp Saluran</b><span>Ikuti update terbaru</span></div>
+    </a>
+    <a class="ct spot reveal" style="--d:.24s" href="https://tiktok.com/@abzcdxf" target="_blank" rel="noopener">
+      <img src="https://cdn.phototourl.com/member/2026-10-11-5a90f68f-d4e6-4f93-ba56-76603bc49062.jpg" alt="TikTok">
+      <div><b>TikTok</b><span>@abzcdxf</span></div>
+    </a>
+    <a class="ct spot reveal" style="--d:.32s" href="https://youtube.com/@supecstar?si=SwC792l9eVgBlkY4" target="_blank" rel="noopener">
+      <img src="https://cdn.phototourl.com/member/2026-10-11-c80726c8-32de-4c72-aeaa-b2931cba95ee.jpg" alt="YouTube">
+      <div><b>YouTube</b><span>@supecstar</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="wrap sec" id="tools">
+  <div class="sec-h reveal">
+    <h2>Tools</h2>
+    <p>Tools gratis yang bisa kamu pakai langsung.</p>
+  </div>
+  <div class="tgrid">
+    <article class="tcard spot reveal" style="--d:0s">
+      <span class="tag">Free</span>
+      <h3>Web Hosting</h3>
+      <p>Jadikan file HTML kamu menjadi website yang bisa diakses online.</p>
+      <a class="tlink" href="https://cimel-deploy.vercel.app/" target="_blank" rel="noopener">cimel-deploy.vercel.app ↗</a>
+    </article>
+    <article class="tcard spot reveal" style="--d:.1s">
+      <span class="tag">Free</span>
+      <h3>Web Scan Generator</h3>
+      <p>Buat kode scan dengan mudah.</p>
+      <a class="tlink" href="https://scangeneratorc.vercel.app" target="_blank" rel="noopener">scangeneratorc.vercel.app ↗</a>
+    </article>
+  </div>
+</section>
+
+<section class="wrap sec" id="payment">
+  <div class="sec-h reveal">
+    <h2>Payment</h2>
+    <p>Scan QR untuk bayar, atau salin nomor e-wallet di bawah.</p>
+  </div>
+  <div class="pay-grid">
+    <div class="qr-card spot reveal" style="--d:0s">
+      <div class="qr-box"><img src="https://cdn.phototourl.com/member/2026-10-14-d2310533-2ef9-435e-a687-57bd74b79fdb.jpg" alt="QR Payment"></div>
+      <button class="btn sm" type="button" id="qr-dl">Download QR</button>
+    </div>
+    <div class="pay-stack">
+      <div class="pay-card spot reveal" style="--d:.08s">
+        <img class="pay-logo" src="https://cdn.phototourl.com/member/2026-10-14-d92f4827-9031-41a4-afe6-46d7c1d28c02.jpg" alt="DANA">
+        <div class="grow"><b>DANA</b><span class="pay-num">+6285790618370</span></div>
+        <button class="btn sm" type="button" data-copy="+6285790618370">Salin</button>
+      </div>
+      <div class="pay-card spot reveal" style="--d:.16s">
+        <img class="pay-logo" src="https://cdn.phototourl.com/member/2026-10-14-25af9548-438b-4aaa-a0bb-6df7bc4ad2ff.jpg" alt="GoPay">
+        <div class="grow"><b>GoPay</b><span class="pay-num">+6285790618370</span></div>
+        <button class="btn sm" type="button" data-copy="+6285790618370">Salin</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="ai">
+  <div class="sec-h reveal">
+    <h2>Cimel AI</h2>
+    <p>Pilih pertanyaan yang ingin kamu tanyakan. Tidak perlu mengetik.</p>
+  </div>
+  <div class="ai-wrap reveal">
+    <div class="ai-head"><span class="ai-dot"></span><b>Cimel AI</b><span class="muted sm">Online</span></div>
+    <div class="ai-msgs" id="ai-msgs"></div>
+    <div class="ai-status hide" id="ai-status">
+      <span>Cimel AI sedang membuat jawaban</span>
+      <span class="dot3"><i></i><i></i><i></i></span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="rating">
+  <div class="sec-h reveal">
+    <h2>Rating</h2>
+    <p>Beri bintang dan komentar untuk Cimel Store.</p>
+  </div>
+  <div class="rv-form reveal">
+    <div class="stars" id="rv-stars">
+      <button type="button" data-v="1" aria-label="1 bintang">★</button>
+      <button type="button" data-v="2" aria-label="2 bintang">★</button>
+      <button type="button" data-v="3" aria-label="3 bintang">★</button>
+      <button type="button" data-v="4" aria-label="4 bintang">★</button>
+      <button type="button" data-v="5" aria-label="5 bintang">★</button>
+    </div>
+    <input id="rv-name" maxlength="40" placeholder="Nama (opsional)">
+    <textarea id="rv-text" maxlength="200" rows="3" placeholder="Komentar (opsional)"></textarea>
+    <button class="btn" id="rv-send" type="button">Kirim rating</button>
+  </div>
+  <div class="feed"><div class="feed-track" id="feed-track"></div></div>
+</section>
+
+<footer>© 2026 Cimel Store</footer>
+
+<div class="donate" id="donate">
+  <div class="dn-card" role="dialog" aria-modal="true" aria-labelledby="dn-t">
+    <button class="dn-x" id="dn-x" type="button" aria-label="Tutup">×</button>
+    <p class="kicker">Komunitas</p>
+    <h3 id="dn-t">Gabung saluran Cimel</h3>
+    <p class="muted">Dapatkan update, info produk, dan promo terbaru langsung dari saluran Cimel.</p>
+    <a class="btn" id="dn-go" href="https://whatsapp.com/channel/0029VbEMOTH72WU4iK8yeu1w" target="_blank" rel="noopener">Gabung saluran</a>
+    <div class="dn-bar"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const WA='https://wa.me/6285790618370';
+const QR_URL='https://cdn.phototourl.com/member/2026-10-14-d2310533-2ef9-435e-a687-57bd74b79fdb.jpg';
+
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),2800);}
+
+/* ---------- PRODUK ---------- */
+const PRODUCTS=[
+ {n:'AM Prem 1 Tahun',k:'Alight Motion Premium 1 tahun',logo:'https://cdn.phototourl.com/member/2026-10-14-ec882719-6483-416e-a65c-d0c953b7b2c3.jpg',opt:[['Sharing','Rp500'],['Private','Rp1.000']],msg:'Halo, saya mau order AM Prem 1 Tahun'},
+ {n:'Jasa Edit',k:'Hubungi admin langsung',opt:[],msg:'Halo, saya mau tanya Jasa Edit'},
+ {n:'Jasa HD Foto',k:'Tingkatkan kualitas foto',opt:[['Per foto','Rp1.000']],msg:'Halo, saya mau pakai Jasa HD Foto'},
+ {n:'Jasa Lobi Bareng 5',k:'Lobi bersama 5 orang',opt:[['Per jam','Rp1.000']],msg:'Halo, saya mau pakai Jasa Lobi Bareng 5'},
+ {n:'QR Design',k:'Desain QR code custom',opt:[['Harga','Rp500']],msg:'Halo, saya mau order QR Design'}
+];
+$('#products').innerHTML=PRODUCTS.map((p,i)=>`<article class="pcard spot reveal" style="--d:${(i*.08).toFixed(2)}s">${p.logo?`<img class="logo" src="${p.logo}" alt="">`:''}<h3>${p.n}</h3><p class="muted">${p.k}</p>${p.opt.length?`<ul class="opts">${p.opt.map(o=>`<li><span>${o[0]}</span><b>${o[1]}</b></li>`).join('')}</ul>`:''}<a class="btn sm" href="${WA}?text=${encodeURIComponent(p.msg)}" target="_blank" rel="noopener">Hubungi admin</a></article>`).join('');
+
+/* ---------- PAYMENT ---------- */
+document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copyText(b.dataset.copy));
+async function copyText(t){
+ try{await navigator.clipboard.writeText(t);}
+ catch{
+  const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch{}
+  ta.remove();
+ }
+ toast('Nomor disalin: '+t);
+}
+$('#qr-dl').onclick=async()=>{
+ try{
+  const r=await fetch(QR_URL);
+  if(!r.ok)throw new Error('gagal');
+  const blob=await r.blob();
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='cimel-qr.jpg';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),4000);
+ }catch{
+  window.open(QR_URL,'_blank');
+  toast('Tahan gambar lalu pilih Simpan.');
+ }
+};
+
+/* ---------- CIMEL AI ---------- */
+const TOPIC={produk:'Pertanyaan tentang produk',tools:'Pertanyaan tentang tools'};
+const AI_Q={
+ produk:[
+  ['Berapa harga AM Sharing?','Harga AM Sharing Rp500.'],
+  ['Berapa harga AM Private?','Harga AM Private Rp1.000.'],
+  ['Berapa harga Jasa HD Foto?','Jasa HD Foto Rp1.000 per foto.'],
+  ['Berapa harga Jasa Lobi Bareng 5?','Jasa Lobi Bareng 5 Rp1.000 per jam.'],
+  ['Berapa harga QR Design?','Harga QR Design Rp500.'],
+  ['Berapa harga Jasa Edit?','Harga Jasa Edit bisa kamu tanyakan langsung ke admin lewat WhatsApp.'],
+  ['Apakah AM Prem masih ada?','Masih ada.'],
+  ['Apakah Cimel Store amanah?','Ya, Cimel Store amanah dan bisa dipercaya 100%.']
+ ],
+ tools:[
+  ['Apa itu tools?','Tools adalah kumpulan alat gratis dari Cimel Store yang bisa langsung kamu pakai. Di sini ada Web Hosting untuk menaruh website, dan Web Scan Generator untuk membuat kode scan.'],
+  ['Gimana cara pakai tools hosting?','Masukkan file atau teks HTML yang sudah kamu buat, lalu klik proses.'],
+  ['Apakah ini gratis?','Ya, ini gratis.'],
+  ['Web scan untuk apa?','Web Scan Generator adalah alat untuk membuat kode scan (seperti QR code). Misalnya kamu bisa membuat kode untuk link toko atau akun media sosial, lalu orang tinggal memindainya pakai HP.']
+ ]
+};
+const aiBox=$('#ai-msgs'),aiStat=$('#ai-status');
+let aiBusy=false;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function aiScroll(){aiBox.scrollTop=aiBox.scrollHeight;}
+function aiUser(text){const d=document.createElement('div');d.className='am user';d.textContent=text;aiBox.appendChild(d);aiScroll();}
+async function aiBot(text){
+ aiBusy=true;
+ const t=document.createElement('div');t.className='am bot typing';t.innerHTML='<span class="dot3"><i></i><i></i><i></i></span>';
+ aiBox.appendChild(t);aiScroll();
+ aiStat.classList.remove('hide');
+ await sleep(1100+Math.random()*900);
+ t.remove();aiStat.classList.add('hide');
+ const d=document.createElement('div');d.className='am bot tw';aiBox.appendChild(d);
+ for(let i=1;i<=text.length;i++){d.textContent=text.slice(0,i);aiScroll();await sleep(18);}
+ d.classList.remove('tw');
+ aiBusy=false;
+}
+function aiOpts(items){
+ const w=document.createElement('div');w.className='aopts';
+ items.forEach(([label,fn],i)=>{
+  const b=document.createElement('button');b.type='button';b.className='aopt';b.textContent=label;
+  b.style.setProperty('--i',i);
+  b.onclick=()=>{if(aiBusy)return;w.remove();fn();};
+  w.appendChild(b);
+ });
+ aiBox.appendChild(w);aiScroll();
+}
+async function aiTopics(){
+ await aiBot('Pilih topik di bawah ya.');
+ aiOpts([[TOPIC.produk,()=>aiAsk('produk',true)],[TOPIC.tools,()=>aiAsk('tools',true)]]);
+}
+async function aiAsk(key,echo){
+ if(echo)aiUser(TOPIC[key]);
+ await aiBot('Silakan pilih pertanyaan di bawah.');
+ aiOpts([...AI_Q[key].map(([q,a])=>[q,()=>aiAnswer(key,q,a)]),['Kembali ke topik',aiTopics]]);
+}
+async function aiAnswer(key,q,a){
+ aiUser(q);
+ await aiBot(a);
+ aiOpts([['Pertanyaan lain',()=>aiAsk(key,false)],['Kembali ke topik',aiTopics]]);
+}
+(async()=>{
+ await aiBot('Halo, saya Cimel AI. Kamu cukup pilih pertanyaan, tidak perlu mengetik.');
+ await aiTopics();
+})();
+
+/* ---------- POPUP GABUNG SALURAN ---------- */
+const dn=$('#donate');let dnT;
+function closeDn(){dn.classList.remove('show');clearTimeout(dnT);}
+function openDn(){dn.classList.add('show');clearTimeout(dnT);dnT=setTimeout(closeDn,6000);}
+$('#dn-x').onclick=closeDn;
+$('#dn-go').onclick=closeDn;
+dn.onclick=e=>{if(e.target===dn)closeDn();};
+$('#open-dn').onclick=openDn;
+setTimeout(openDn,700);
+
+/* ---------- RATING (SUPABASE) ---------- */
+const SB_URL='https://PROJECT-KAMU.supabase.co';   // ganti dengan Project URL kamu
+const SB_KEY='sb_publishable__Yd9u6NMPB84wr7I6paDMw_BQi849ie';
+const sbH={apikey:SB_KEY,'Content-Type':'application/json'};
+
+let rvSel=0;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// Pilih bintang
+document.querySelectorAll('#rv-stars button').forEach(b=>{
+  b.onclick=()=>{
+    rvSel=+b.dataset.v;
+    document.querySelectorAll('#rv-stars button').forEach(x=>x.classList.toggle('on',+x.dataset.v<=rvSel));
+  };
+});
+
+// Ambil rating dan tampilkan sebagai pop-up berjalan
+async function loadFeed(){
+  const track=document.getElementById('feed-track');
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/ratings?select=name,stars,comment&is_show=eq.true&order=created_at.desc&limit=30`,{headers:sbH});
+    const list=r.ok?await r.json():[];
+    if(!list.length){
+      track.style.animation='none';
+      track.innerHTML='<div class="fc"><p>Belum ada rating. Jadilah yang pertama!</p></div>';
+      return;
+    }
+    const cards=list.map(x=>`
+      <div class="fc">
+        <div class="fs">${'★'.repeat(x.stars)}${'☆'.repeat(5-x.stars)}</div>
+        <b>${esc(x.name)}</b>
+        <p>${esc(x.comment||'—')}</p>
+      </div>`).join('');
+    track.innerHTML=cards+cards;
+    track.style.animation=`marq ${list.length*6}s linear infinite`;
+  }catch{
+    track.innerHTML='';
+  }
+}
+
+// Kirim rating
+document.getElementById('rv-send').onclick=async()=>{
+  if(!rvSel){toast('Pilih bintang dulu ya');return;}
+  const body={
+    stars:rvSel,
+    name:(document.getElementById('rv-name').value.trim()||'Anonim').slice(0,40),
+    comment:document.getElementById('rv-text').value.trim().slice(0,200)
+  };
+  const btn=document.getElementById('rv-send');
+  btn.disabled=true;
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/ratings`,{
+      method:'POST',
+      headers:{...sbH,Prefer:'return=minimal'},
+      body:JSON.stringify(body)
+    });
+    if(!r.ok) throw new Error();
+    toast('Terima kasih atas ratingnya!');
+    rvSel=0;
+    document.querySelectorAll('#rv-stars button').forEach(x=>x.classList.remove('on'));
+    document.getElementById('rv-name').value='';
+    document.getElementById('rv-text').value='';
+    loadFeed();
+  }catch{
+    toast('Gagal mengirim, coba lagi');
+  }finally{
+    btn.disabled=false;
+  }
+};
+
+loadFeed();
+
+/* ---------- EFEK SCROLL & KURSOR ---------- */
+const prog=$('#prog'),hdr=document.querySelector('.top');
+function onScroll(){
+ const h=document.documentElement;
+ const max=(h.scrollHeight-h.clientHeight)||1;
+ prog.style.width=(h.scrollTop/max*100)+'%';
+ hdr.classList.toggle('scrolled',h.scrollTop>10);
+}
+addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(en=>{
+ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
+}),{threshold:.12,rootMargin:'0px 0px -40px 0px'}):null;
+function watch(){
+ document.querySelectorAll('.reveal:not(.in)').forEach(el=>{if(io)io.observe(el);else el.classList.add('in');});
+}
+watch();
+
+document.addEventListener('pointermove',e=>{
+ const el=e.target.closest&&e.target.closest('.spot');
+ if(!el)return;
+ const r=el.getBoundingClientRect();
+ el.style.setProperty('--mx',(e.clientX-r.left)+'px');
+ el.style.setProperty('--my',(e.clientY-r.top)+'px');
+},{passive:true});
+</script>
+</body>
+</html>
